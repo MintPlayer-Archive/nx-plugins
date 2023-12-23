@@ -1,0 +1,1 @@
+export { createProbotAppGenerator } from './generators/create-probot-app/generator';
