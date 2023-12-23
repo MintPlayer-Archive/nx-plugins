@@ -1,6 +1,6 @@
 {
   "name": "@mintplayer/nx-generators",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "repository": {
     "url": "https://github.com/MintPlayer/nx-plugins",
     "type": "git",

@@ -6,12 +6,28 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "",
+      "description": "What name would you like to use?",
       "$default": {
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "What name would you like to use?"
+      "x-prompt": "App name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of app",
+      "$default": {
+        "$source": "A Probot app"
+      },
+      "x-prompt": "Description of app"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author's full name",
+      "$default": {
+        "$source": "projectName"
+      },
+      "x-prompt": "Author's full name"
     }
   },
   "required": ["name"]
