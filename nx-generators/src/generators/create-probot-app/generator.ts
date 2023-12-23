@@ -39,7 +39,7 @@ export async function createProbotAppGenerator(
   }
   
   tasks.push(
-    addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.peerDependencies)
+    addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies)
   );
 
   addProjectConfiguration(tree, options.name, {
