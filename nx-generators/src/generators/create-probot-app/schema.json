@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "CreateProbotApp",
-  "title": "",
+  "title": "Generates a Probot app",
   "type": "object",
   "properties": {
     "name": {
@@ -16,17 +16,13 @@
     "description": {
       "type": "string",
       "description": "Description of app",
-      "$default": {
-        "$source": "A Probot app"
-      },
+      "$default": "projectName",
       "x-prompt": "Description of app"
     },
     "author": {
       "type": "string",
       "description": "Author's full name",
-      "$default": {
-        "$source": "projectName"
-      },
+      "$default": "projectName",
       "x-prompt": "Author's full name"
     }
   },
