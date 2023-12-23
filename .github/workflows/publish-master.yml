@@ -1,0 +1,62 @@
+name: publish-master
+
+on:
+  push:
+    branches: [ master ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions: 
+  contents: read
+    
+jobs:
+  build:
+  
+    name: publish-master
+    runs-on: ubuntu-latest
+    
+    permissions: 
+      contents: read
+      id-token: write
+      packages: write 
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+
+    # - name: Print GitHub
+    #   run: echo $JSON
+    #   env:
+    #     JSON: ${{ toJson(github) }}
+
+    - name: Install dependencies
+      run: npm install
+    
+    - name: Build
+      run: npm run build
+
+    ## ng-animations
+    - name: Push to NPM
+      uses: JS-DevTools/npm-publish@v3
+      with:
+        package: 'dist/nx-generators/package.json'
+        registry: 'https://registry.npmjs.org'
+        token: ${{ secrets.PUBLISH_NODE_TO_NPMJS_COM }}
+        access: 'public'
+        provenance: true
+
+    - name: Push to Github
+      uses: JS-DevTools/npm-publish@v3
+      with:
+        package: 'dist/nx-generators/package.json'
+        registry: 'https://npm.pkg.github.com'
+        token: ${{ github.token }}
+        access: 'public'
+        provenance: true

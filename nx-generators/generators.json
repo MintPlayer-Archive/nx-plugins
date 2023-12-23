@@ -1,0 +1,9 @@
+{
+  "generators": {
+    "create-probot-app": {
+      "factory": "./src/generators/create-probot-app/generator",
+      "schema": "./src/generators/create-probot-app/schema.json",
+      "description": "create-probot-app generator"
+    }
+  }
+}
