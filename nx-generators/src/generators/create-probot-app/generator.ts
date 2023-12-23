@@ -33,6 +33,10 @@ export async function createProbotAppGenerator(
       "ts-jest": "^29.0.0"
     }
   };
+
+  if (!tree) {
+    throw 'Tree shouldn\'t be null or undefined';
+  }
   
   tasks.push(
     addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.peerDependencies)
