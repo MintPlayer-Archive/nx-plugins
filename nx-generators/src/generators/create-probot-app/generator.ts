@@ -24,4 +24,5 @@ export async function createProbotAppGenerator(
 
 export default createProbotAppGenerator;
 
+// npx create-nx-workspace
 // nx generate @mintplayer/nx-generators:create-probot-app
