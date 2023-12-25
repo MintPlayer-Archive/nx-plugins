@@ -38,20 +38,19 @@ export async function createProbotAppGenerator(
   if (!tree) {
     throw 'Tree shouldn\'t be null or undefined';
   }
-  
+
+  updateJson(tree, 'package.json', (pkgJson) => {
+    pkgJson.scripts = {
+      ...pkgJson.scripts,
+      start: 'nx serve',
+      build: 'nx build',
+      test: 'nx test'
+    }
+    return pkgJson;
+  });
+
   tasks.push(
     addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies),
-    () => {
-      updateJson(tree, 'package.json', (pkgJson) => {
-        pkgJson.scripts = {
-          ...pkgJson.scripts,
-          start: 'nx serve',
-          build: 'nx build',
-          test: 'nx test'
-        }
-        return pkgJson;
-      });
-    }
   );
 
   addProjectConfiguration(tree, options.name, {
