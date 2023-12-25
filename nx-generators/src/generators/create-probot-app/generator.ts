@@ -59,10 +59,10 @@ export async function createProbotAppGenerator(
     sourceRoot: `${projectRoot}/src`,
     targets: {
       build: {
-        command: 'tsc'
+        command: `npx tsc -p ./${projectRoot}/tsconfig.json --outDir ./dist/${projectRoot}`
       },
       serve: {
-        command: 'probot run ./lib/index.js',
+        command: `probot run ./dist/${projectRoot}/index.js`,
         dependsOn: ['build']
       },
       test: {
