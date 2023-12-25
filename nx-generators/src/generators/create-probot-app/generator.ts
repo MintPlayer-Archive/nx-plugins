@@ -7,6 +7,7 @@ import {
   installPackagesTask,
   addDependenciesToPackageJson,
   runTasksInSerial,
+  updateJson,
 } from '@nx/devkit';
 import * as path from 'path';
 import { CreateProbotAppGeneratorSchema } from './schema';
@@ -39,7 +40,18 @@ export async function createProbotAppGenerator(
   }
   
   tasks.push(
-    addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies)
+    addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies),
+    () => {
+      updateJson(tree, 'package.json', (pkgJson) => {
+        pkgJson.scripts = {
+          ...pkgJson.scripts,
+          start: 'nx serve',
+          build: 'nx build',
+          test: 'nx test'
+        }
+        return pkgJson;
+      });
+    }
   );
 
   addProjectConfiguration(tree, options.name, {
