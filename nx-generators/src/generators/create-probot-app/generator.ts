@@ -57,7 +57,18 @@ export async function createProbotAppGenerator(
     root: projectRoot,
     projectType: 'application',
     sourceRoot: `${projectRoot}/src`,
-    targets: {},
+    targets: {
+      build: {
+        command: 'tsc'
+      },
+      serve: {
+        command: 'probot run ./lib/index.js',
+        dependsOn: ['build']
+      },
+      test: {
+        command: 'jest'
+      },
+    },
   });
   generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
   // Update package.json here
