@@ -53,6 +53,28 @@ export async function createProbotAppGenerator(
     addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies),
   );
 
+  updateJson(tree, 'tsconfig.base.json', (tsconfigBaseJson) => {
+    tsconfigBaseJson.compileOnSave ??= false;
+    tsconfigBaseJson.compilerOptions ??= {};
+    tsconfigBaseJson.compilerOptions.rootDir ??= '.';
+    tsconfigBaseJson.compilerOptions.sourceMap ??= true;
+    tsconfigBaseJson.compilerOptions.declaration ??= false;
+    tsconfigBaseJson.compilerOptions.moduleResolution ??= 'node';
+    tsconfigBaseJson.compilerOptions.emitDecoratorMetadata ??= true;
+    tsconfigBaseJson.compilerOptions.experimentalDecorators ??= true;
+    tsconfigBaseJson.compilerOptions.importHelpers ??= true;
+    tsconfigBaseJson.compilerOptions.target ??= 'es2015';
+    tsconfigBaseJson.compilerOptions.module ??= 'esnext';
+    tsconfigBaseJson.compilerOptions.lib ??= ["es2020", "dom"];
+    tsconfigBaseJson.compilerOptions.skipLibCheck ??= true;
+    tsconfigBaseJson.compilerOptions.skipDefaultLibCheck ??= true;
+    tsconfigBaseJson.compilerOptions.baseUrl ??= '.';
+    tsconfigBaseJson.compilerOptions.paths ??= {};
+    tsconfigBaseJson.exclude ??= ["node_modules", "tmp"];
+
+    return tsconfigBaseJson;
+  })
+
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,
     projectType: 'application',
