@@ -54,32 +54,6 @@ export async function createProbotAppGenerator(
     addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies),
   );
 
-  // const basePath = 'tsconfig.base.json';
-  // if (!tree.exists(basePath)) {
-  //   tree.write(basePath, '{}');
-  // }
-  // updateJson(tree, basePath, (tsconfigBaseJson) => {
-  //   tsconfigBaseJson.compileOnSave ??= false;
-  //   tsconfigBaseJson.compilerOptions ??= {};
-  //   tsconfigBaseJson.compilerOptions.rootDir ??= '.';
-  //   tsconfigBaseJson.compilerOptions.sourceMap ??= true;
-  //   tsconfigBaseJson.compilerOptions.declaration ??= false;
-  //   tsconfigBaseJson.compilerOptions.moduleResolution ??= 'node';
-  //   tsconfigBaseJson.compilerOptions.emitDecoratorMetadata ??= true;
-  //   tsconfigBaseJson.compilerOptions.experimentalDecorators ??= true;
-  //   tsconfigBaseJson.compilerOptions.importHelpers ??= true;
-  //   tsconfigBaseJson.compilerOptions.target ??= 'es2015';
-  //   tsconfigBaseJson.compilerOptions.module ??= 'esnext';
-  //   tsconfigBaseJson.compilerOptions.lib ??= ["es2020", "dom"];
-  //   tsconfigBaseJson.compilerOptions.skipLibCheck ??= true;
-  //   tsconfigBaseJson.compilerOptions.skipDefaultLibCheck ??= true;
-  //   tsconfigBaseJson.compilerOptions.baseUrl ??= '.';
-  //   tsconfigBaseJson.compilerOptions.paths ??= {};
-  //   tsconfigBaseJson.exclude ??= ["node_modules", "tmp"];
-
-  //   return tsconfigBaseJson;
-  // });
-
   // Generate tsconfig.base.json
   const jsTask = await jsInitGenerator(tree, {
     ...options,
@@ -99,7 +73,7 @@ export async function createProbotAppGenerator(
     sourceRoot: `${projectRoot}/src`,
     targets: {
       build: {
-        command: `npx tsc -p ./${projectRoot}/tsconfig.json --outDir ./dist/${projectRoot}`
+        command: `npx tsc -p ${projectRoot}/tsconfig.json --outDir dist`
       },
       serve: {
         command: `probot run ./dist/${projectRoot}/index.js`,
