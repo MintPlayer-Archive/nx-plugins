@@ -12,3 +12,4 @@ to generate a new Probot app. However, you can't combine multiple Probot apps in
     cd xxx
     npm i -D @mintplayer/nx-generators
     nx generate @mintplayer/nx-generators:create-probot-app
+    nx g @nx/js:library greeter --buildable --publishable --import-path=@example/greeter
