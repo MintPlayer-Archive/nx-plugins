@@ -53,7 +53,11 @@ export async function createProbotAppGenerator(
     addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies),
   );
 
-  updateJson(tree, 'tsconfig.base.json', (tsconfigBaseJson) => {
+  const basePath = 'tsconfig.base.json';
+  if (!tree.exists(basePath)) {
+    tree.write(basePath, '{}');
+  }
+  updateJson(tree, basePath, (tsconfigBaseJson) => {
     tsconfigBaseJson.compileOnSave ??= false;
     tsconfigBaseJson.compilerOptions ??= {};
     tsconfigBaseJson.compilerOptions.rootDir ??= '.';
@@ -73,7 +77,7 @@ export async function createProbotAppGenerator(
     tsconfigBaseJson.exclude ??= ["node_modules", "tmp"];
 
     return tsconfigBaseJson;
-  })
+  });
 
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,
