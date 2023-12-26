@@ -9,7 +9,7 @@ import {
   runTasksInSerial,
   updateJson,
 } from '@nx/devkit';
-import { initGenerator as jsInitGenerator } from '@nx/js';
+import { getRelativePathToRootTsConfig, initGenerator as jsInitGenerator } from '@nx/js';
 import * as path from 'path';
 import { CreateProbotAppGeneratorSchema } from './schema';
 import { DepTree } from './package-and-version';
@@ -89,6 +89,10 @@ export async function createProbotAppGenerator(
   });
   tasks.push(jsTask);
 
+  // TODO: `${options.projectRoot}/package.json`
+  const tsconfigBasePath = getRelativePathToRootTsConfig(tree, '');
+
+  // Generate project.json
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,
     projectType: 'application',
@@ -106,7 +110,10 @@ export async function createProbotAppGenerator(
       },
     },
   });
-  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, options);
+  generateFiles(tree, path.join(__dirname, 'files'), projectRoot, {
+    ...options,
+    tsconfigBasePath,
+  });
   // Update package.json here
   await formatFiles(tree);
 
