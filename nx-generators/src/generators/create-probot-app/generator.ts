@@ -9,6 +9,7 @@ import {
   runTasksInSerial,
   updateJson,
 } from '@nx/devkit';
+import { initGenerator as jsInitGenerator } from '@nx/js';
 import * as path from 'path';
 import { CreateProbotAppGeneratorSchema } from './schema';
 import { DepTree } from './package-and-version';
@@ -53,31 +54,40 @@ export async function createProbotAppGenerator(
     addDependenciesToPackageJson(tree, depsToInstall.dependencies, depsToInstall.devDependencies),
   );
 
-  const basePath = 'tsconfig.base.json';
-  if (!tree.exists(basePath)) {
-    tree.write(basePath, '{}');
-  }
-  updateJson(tree, basePath, (tsconfigBaseJson) => {
-    tsconfigBaseJson.compileOnSave ??= false;
-    tsconfigBaseJson.compilerOptions ??= {};
-    tsconfigBaseJson.compilerOptions.rootDir ??= '.';
-    tsconfigBaseJson.compilerOptions.sourceMap ??= true;
-    tsconfigBaseJson.compilerOptions.declaration ??= false;
-    tsconfigBaseJson.compilerOptions.moduleResolution ??= 'node';
-    tsconfigBaseJson.compilerOptions.emitDecoratorMetadata ??= true;
-    tsconfigBaseJson.compilerOptions.experimentalDecorators ??= true;
-    tsconfigBaseJson.compilerOptions.importHelpers ??= true;
-    tsconfigBaseJson.compilerOptions.target ??= 'es2015';
-    tsconfigBaseJson.compilerOptions.module ??= 'esnext';
-    tsconfigBaseJson.compilerOptions.lib ??= ["es2020", "dom"];
-    tsconfigBaseJson.compilerOptions.skipLibCheck ??= true;
-    tsconfigBaseJson.compilerOptions.skipDefaultLibCheck ??= true;
-    tsconfigBaseJson.compilerOptions.baseUrl ??= '.';
-    tsconfigBaseJson.compilerOptions.paths ??= {};
-    tsconfigBaseJson.exclude ??= ["node_modules", "tmp"];
+  // const basePath = 'tsconfig.base.json';
+  // if (!tree.exists(basePath)) {
+  //   tree.write(basePath, '{}');
+  // }
+  // updateJson(tree, basePath, (tsconfigBaseJson) => {
+  //   tsconfigBaseJson.compileOnSave ??= false;
+  //   tsconfigBaseJson.compilerOptions ??= {};
+  //   tsconfigBaseJson.compilerOptions.rootDir ??= '.';
+  //   tsconfigBaseJson.compilerOptions.sourceMap ??= true;
+  //   tsconfigBaseJson.compilerOptions.declaration ??= false;
+  //   tsconfigBaseJson.compilerOptions.moduleResolution ??= 'node';
+  //   tsconfigBaseJson.compilerOptions.emitDecoratorMetadata ??= true;
+  //   tsconfigBaseJson.compilerOptions.experimentalDecorators ??= true;
+  //   tsconfigBaseJson.compilerOptions.importHelpers ??= true;
+  //   tsconfigBaseJson.compilerOptions.target ??= 'es2015';
+  //   tsconfigBaseJson.compilerOptions.module ??= 'esnext';
+  //   tsconfigBaseJson.compilerOptions.lib ??= ["es2020", "dom"];
+  //   tsconfigBaseJson.compilerOptions.skipLibCheck ??= true;
+  //   tsconfigBaseJson.compilerOptions.skipDefaultLibCheck ??= true;
+  //   tsconfigBaseJson.compilerOptions.baseUrl ??= '.';
+  //   tsconfigBaseJson.compilerOptions.paths ??= {};
+  //   tsconfigBaseJson.exclude ??= ["node_modules", "tmp"];
 
-    return tsconfigBaseJson;
+  //   return tsconfigBaseJson;
+  // });
+
+  // Generate tsconfig.base.json
+  const jsTask = await jsInitGenerator(tree, {
+    ...options,
+    tsConfigName: 'tsconfig.base.json',
+    js: false,
+    skipFormat: true,
   });
+  tasks.push(jsTask);
 
   addProjectConfiguration(tree, options.name, {
     root: projectRoot,

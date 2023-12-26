@@ -1,13 +1,14 @@
 {
   "name": "@mintplayer/nx-generators",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "repository": {
     "url": "https://github.com/MintPlayer/nx-plugins",
     "type": "git",
     "directory": "nx-generators"
   },
   "dependencies": {
-    "@nx/devkit": "17.2.7",
+    "@nx/devkit": "^17.2.7",
+    "@nx/js": "^17.2.7",
     "tslib": "^2.3.0"
   },
   "private": false,
