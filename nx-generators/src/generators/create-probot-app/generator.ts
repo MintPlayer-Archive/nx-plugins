@@ -90,7 +90,7 @@ export async function createProbotAppGenerator(
   tasks.push(jsTask);
 
   // TODO: `${options.projectRoot}/package.json`
-  const tsconfigBasePath = getRelativePathToRootTsConfig(tree, '');
+  const tsconfigBasePath = getRelativePathToRootTsConfig(tree, projectRoot);
 
   // Generate project.json
   addProjectConfiguration(tree, options.name, {
